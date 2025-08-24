@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevOps Hub - Intelligence-Driven Growth Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #0ea5e9;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --glass: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(148, 163, 184, 0.1);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: radial-gradient(ellipse at top, #0f172a, #020617);
+            min-height: 100vh;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Modern Glass Morphism */
+        .glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-dark {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        /* Neural Network Animation */
+        .neural-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(14, 165, 233, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .neural-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.3), transparent);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        /* Advanced Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scaleX(1); }
+            50% { opacity: 0.8; transform: scaleX(1.5); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(14, 165, 233, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(14, 165, 233, 0.8), 0 0 60px rgba(14, 165, 233, 0.4); }
+        }
+
+        @keyframes matrix {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes slide-in-blur {
+            0% { transform: translateY(30px); opacity: 0; filter: blur(10px); }
+            100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9, #8b5cf6, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Progress Rings */
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+
+        /* Neon Effects */
+        .neon-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: linear-gradient(45deg, #0ea5e9, #8b5cf6, #f59e0b, #10b981);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: subtract;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Data Visualization */
+        .data-point {
+            animation: data-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes data-pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, 
+                rgba(148, 163, 184, 0.1) 25%, 
+                rgba(148, 163, 184, 0.2) 50%, 
+                rgba(148, 163, 184, 0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0ea5e9, #8b5cf6);
+            border-radius: 4px;
+        }
+
+        /* Matrix Rain Effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .matrix-char {
+            position: absolute;
+            color: rgba(14, 165, 233, 0.3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            animation: matrix 10s linear infinite;
+        }
+
+        /* AI Assistant Styles */
+        .ai-message {
+            animation: slide-in-blur 0.6s ease-out;
+        }
+
+        .typing-indicator::after {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #0ea5e9;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white overflow-x-hidden">
+    <!-- Matrix Rain Background -->
+    <div class="matrix-rain" id="matrix-rain"></div>
+
+    <!-- Neural Network Background -->
+    <div class="neural-bg" id="neural-bg"></div>
+
+    <!-- Advanced Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-slate-900 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="relative">
+                <div class="w-24 h-24 border-4 border-slate-700 border-t-sky-500 rounded-full animate-spin"></div>
+                <div class="absolute inset-0 w-24 h-24 border-4 border-transparent border-r-purple-500 rounded-full animate-spin" style="animation-duration: 1.5s; animation-direction: reverse;"></div>
+                <div class="absolute inset-2 w-20 h-20 border-4 border-transparent border-b-amber-500 rounded-full animate-spin" style="animation-duration: 0.8s;"></div>
+            </div>
+            <div class="mt-8 text-2xl font-bold gradient-text">Initializing RevOps Intelligence</div>
+            <div class="mt-4 font-mono text-sm text-slate-400">
+                <span id="loading-text">Connecting neural networks...</span>
+            </div>
+            <div class="mt-4 w-64 h-2 bg-slate-800 rounded-full overflow-hidden mx-auto">
+                <div class="h-full bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 rounded-full transform -translate-x-full animate-pulse" 
+                     style="animation: loading-progress 3s ease-out forwards;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="min-h-screen opacity-0 transition-opacity duration-1000">
+        <!-- Modern Header -->
+        <header class="fixed top-0 w-full z-40 glass-dark border-b border-slate-700/50">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-gradient-to-r from-sky-500 to-purple-600 rounded-lg flex items-center justify-center neon-border">
+                                <span class="text-white font-bold font-mono">RH</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-black gradient-text">RevOps Hub</h1>
+                            <p class="text-xs text-slate-400 font-mono">Neural Intelligence v3.0</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <nav class="hidden lg:flex items-center space-x-8">
+                        <a href="#" class="nav-link active px-3 py-2 text-sm font-semibold text-sky-400 relative">
+                            Dashboard
+                            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-sky-400 rounded-full"></div>
+                        </a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 hover:text-sky-400 transition-colors">Analytics</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 hover:text-sky-400 transition-colors">Automation</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 hover:text-sky-400 transition-colors">Insights</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 hover:text-sky-400 transition-colors">Legacy</a>
+                    </nav>
+
+                    <!-- User Controls -->
+                    <div class="flex items-center space-x-4">
+                        <!-- AI Status -->
+                        <div class="hidden md:flex items-center space-x-2 glass px-3 py-1.5 rounded-full">
+                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span class="text-xs font-medium text-slate-300">AI Active</span>
+                        </div>
+
+                        <!-- Notifications -->
+                        <button class="relative p-2 glass rounded-lg hover:bg-slate-700/50 transition-colors">
+                            <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-3.5-3.5M9 7l3-3m6 6l3-3M9 7h6m-6 0V3m0 4v10a2 2 0 002 2h6a2 2 0 002-2V7"></path>
+                            </svg>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-xs text-white font-bold">3</span>
+                            </div>
+                        </button>
+
+                        <!-- Profile -->
+                        <div class="flex items-center space-x-3 glass rounded-full p-1 pr-4">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">JS</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-300">John Smith</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="pt-16 min-h-screen">
+            <!-- Hero Command Center -->
+            <section class="relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-center">
+                        <!-- Command Interface -->
+                        <div class="xl:col-span-7 space-y-8">
+                            <div class="space-y-4">
+                                <div class="inline-flex items-center space-x-2 glass px-4 py-2 rounded-full">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-sm font-medium text-slate-300">Neural Networks Online</span>
+                                </div>
+                                <h1 class="text-5xl xl:text-7xl font-black leading-tight">
+                                    Revenue Operations
+                                    <span class="block gradient-text">Command Center</span>
+                                </h1>
+                                <p class="text-xl text-slate-400 leading-relaxed max-w-2xl">
+                                    Leverage AI-powered insights to optimize your revenue pipeline, 
+                                    automate workflows, and build lasting family legacy systems.
+                                </p>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="flex flex-wrap gap-4">
+                                <button class="px-6 py-3 bg-gradient-to-r from-sky-500 to-purple-600 text-white font-semibold rounded-xl hover-lift glow-pulse">
+                                    <span class="flex items-center space-x-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                        <span>Launch AI Assistant</span>
+                                    </span>
+                                </button>
+                                <button class="px-6 py-3 glass border border-slate-600 text-slate-300 font-semibold rounded-xl hover:bg-slate-700/50 transition-all">
+                                    View Analytics
+                                </button>
+                            </div>
+
+                            <!-- Live Metrics -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-2xl font-bold text-sky-400 font-mono" id="revenue-metric">$2.4M</div>
+                                    <div class="text-xs text-slate-400 uppercase tracking-wide">Revenue YTD</div>
+                                    <div class="text-xs text-green-400 mt-1">↗ +23.5%</div>
+                                </div>
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-2xl font-bold text-purple-400 font-mono" id="conversion-metric">94.2%</div>
+                                    <div class="text-xs text-slate-400 uppercase tracking-wide">Conversion</div>
+                                    <div class="text-xs text-green-400 mt-1">↗ +5.8%</div>
+                                </div>
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-2xl font-bold text-amber-400 font-mono" id="pipeline-metric">156</div>
+                                    <div class="text-xs text-slate-400 uppercase tracking-wide">Active Deals</div>
+                                    <div class="text-xs text-green-400 mt-1">↗ +12</div>
+                                </div>
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-2xl font-bold text-green-400 font-mono" id="efficiency-metric">87%</div>
+                                    <div class="text-xs text-slate-400 uppercase tracking-wide">Efficiency</div>
+                                    <div class="text-xs text-green-400 mt-1">↗ +9.3%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Neural Interface -->
+                        <div class="xl:col-span-5">
+                            <div class="glass p-8 rounded-2xl relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-purple-600/10"></div>
+                                <div class="relative">
+                                    <h3 class="text-xl font-bold mb-6 gradient-text">AI Intelligence Matrix</h3>
+                                    
+                                    <!-- Neural Network Visualization -->
+                                    <div class="grid grid-cols-3 gap-4 mb-8">
+                                        <div class="text-center">
+                                            <div class="relative">
+                                                <svg class="w-16 h-16 mx-auto progress-ring" viewBox="0 0 120 120">
+                                                    <circle cx="60" cy="60" r="50" stroke="#1e293b" stroke-width="8" fill="none"/>
+                                                    <circle cx="60" cy="60" r="50" stroke="#0ea5e9" stroke-width="8" fill="none" 
+                                                            stroke-dasharray="314" stroke-dashoffset="47" stroke-linecap="round"/>
+                                                </svg>
+                                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                                    <span class="text-lg font-bold text-sky-400">85%</span>
+                                                    <span class="text-xs text-slate-400">Automation</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="relative">
+                                                <svg class="w-16 h-16 mx-auto progress-ring" viewBox="0 0 120 120">
+                                                    <circle cx="60" cy="60" r="50" stroke="#1e293b" stroke-width="8" fill="none"/>
+                                                    <circle cx="60" cy="60" r="50" stroke="#8b5cf6" stroke-width="8" fill="none" 
+                                                            stroke-dasharray="314" stroke-dashoffset="63" stroke-linecap="round"/>
+                                                </svg>
+                                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                                    <span class="text-lg font-bold text-purple-400">80%</span>
+                                                    <span class="text-xs text-slate-400">Insights</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="relative">
+                                                <svg class="w-16 h-16 mx-auto progress-ring" viewBox="0 0 120 120">
+                                                    <circle cx="60" cy="60" r="50" stroke="#1e293b" stroke-width="8" fill="none"/>
+                                                    <circle cx="60" cy="60" r="50" stroke="#f59e0b" stroke-width="8" fill="none" 
+                                                            stroke-dasharray="314" stroke-dashoffset="31" stroke-linecap="round"/>
+                                                </svg>
+                                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                                    <span class="text-lg font-bold text-amber-400">90%</span>
+                                                    <span class="text-xs text-slate-400">Optimization</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- AI Status -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-slate-300">Pipeline Analysis</span>
+                                            <span class="text-sm font-mono text-green-400">Processing...</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-slate-300">Forecast Generation</span>
+                                            <span class="text-sm font-mono text-sky-400">Complete</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-slate-300">Risk Assessment</span>
+                                            <span class="text-sm font-mono text-purple-400">Analyzing</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Dashboard -->
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                        <!-- Revenue Intelligence -->
+                        <div class="xl:col-span-2 glass p-8 rounded-2xl hover-lift">
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white mb-2">Revenue Intelligence</h3>
+                                    <p class="text-slate-400">Real-time revenue analytics and predictions</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="px-4 py-2 bg-sky-500/20 text-sky-400 rounded-lg text-sm font-medium border border-sky-500/30">
+                                        Real-time
+                                    </button>
+                                    <button class="px-4 py-2 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-700/50">
+                                        Historical
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="h-64">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                            
+                            <!-- Key Insights -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                                <div class="bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
+                                    <div class="text-2xl font-bold text-green-400 font-mono">↗ 23.5%</div>
+                                    <div class="text-sm text-green-400">Growth Rate</div>
+                                    <div class="text-xs text-slate-400">vs. last quarter</div>
+                                </div>
+                                <div class="bg-sky-500/10 border border-sky-500/20 p-4 rounded-xl">
+                                    <div class="text-2xl font-bold text-sky-400 font-mono">$847K</div>
+                                    <div class="text-sm text-sky-400">Pipeline Value</div>
+                                    <div class="text-xs text-slate-400">Weighted forecast</div>
+                                </div>
+                                <div class="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl">
+                                    <div class="text-2xl font-bold text-purple-400 font-mono">94.2%</div>
+                                    <div class="text-sm text-purple-400">Win Rate</div>
+                                    <div class="text-xs text-slate-400">Last 30 days</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Command Panel -->
+                        <div class="space-y-6">
+                            <!-- AI Assistant -->
+                            <div class="glass p-6 rounded-2xl hover-lift">
+                                <div class="flex items-center space-x-3 mb-4">
+                                    <div class="w-10 h-10 bg-gradient-to-r from-sky-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white">AI Assistant</h4>
+                                        <p class="text-xs text-slate-400">Neural Intelligence Active</p>
+                                    </div>
+                                    <div class="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                </div>
+                                
+                                <div class="space-y-3 mb-4" id="ai-suggestions">
+                                    <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                        <p class="text-sm text-slate-300">💡 Consider increasing outreach to high-value prospects in Q4</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                        <p class="text-sm text-slate-300">📊 Pipeline velocity up 15% - maintain current strategies</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                        <p class="text-sm text-slate-300">🎯 3 deals at risk - recommend immediate action</p>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full px-4 py-3 bg-gradient-to-r from-sky-500 to-purple-600 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity">
+                                    Open AI Console
+                                </button>
+                            </div>
+
+                            <!-- Quick Stats -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-xl font-bold text-sky-400 font-mono">47</div>
+                                    <div class="text-xs text-slate-400">Active Deals</div>
+                                </div>
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-xl font-bold text-purple-400 font-mono">$2.4M</div>
+                                    <div class="text-xs text-slate-400">Pipeline Value</div>
+                                </div>
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-xl font-bold text-amber-400 font-mono">23d</div>
+                                    <div class="text-xs text-slate-400">Avg. Cycle</div>
+                                </div>
+                                <div class="glass p-4 rounded-xl text-center hover-lift">
+                                    <div class="text-xl font-bold text-green-400 font-mono">94%</div>
+                                    <div class="text-xs text-slate-400">Win Rate</div>
+                                </div>
+                            </div>
+
+                            <!-- Performance Alerts -->
+                            <div class="glass p-6 rounded-2xl hover-lift">
+                                <h4 class="font-bold text-white mb-4 flex items-center">
+                                    <svg class="w-5 h-5 text-amber-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                    Performance Alerts
+                                </h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                                        <div class="w-2 h-2 bg-amber-400 rounded-full"></div>
+                                        <span class="text-sm text-amber-400">Deal velocity slowing in Enterprise segment</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                        <span class="text-sm text-green-400">Q4 targets 87% achieved</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Analytics Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mt-12">
+                        <!-- Pipeline Forecasting -->
+                        <div class="glass p-8 rounded-2xl hover-lift">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold text-white">Pipeline Forecast</h3>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-xs text-green-400 font-medium">Live</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div class="relative">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-medium text-slate-300">Q4 Target: $3.2M</span>
+                                        <span class="text-sm font-mono text-green-400">87%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-green-500 to-emerald-400 h-full rounded-full transition-all duration-1000" 
+                                             style="width: 87%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-green-400 font-mono">$2.78M</div>
+                                        <div class="text-xs text-slate-400">Current</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-sky-400 font-mono">$420K</div>
+                                        <div class="text-xs text-slate-400">Remaining</div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-4 border-t border-slate-700">
+                                    <h4 class="text-sm font-medium text-slate-300 mb-3">Top Opportunities</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded-lg">
+                                            <span class="text-xs text-slate-300">Enterprise Corp</span>
+                                            <span class="text-xs font-mono text-green-400">$250K</span>
+                                        </div>
+                                        <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded-lg">
+                                            <span class="text-xs text-slate-300">Tech Solutions</span>
+                                            <span class="text-xs font-mono text-sky-400">$180K</span>
+                                        </div>
+                                        <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded-lg">
+                                            <span class="text-xs text-slate-300">Global Industries</span>
+                                            <span class="text-xs font-mono text-purple-400">$320K</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Family Legacy Tracker -->
+                        <div class="glass p-8 rounded-2xl hover-lift">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold text-white">Legacy Vault</h3>
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-pink-400 font-mono">127</div>
+                                        <div class="text-xs text-slate-400">Memories</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-purple-400 font-mono">23</div>
+                                        <div class="text-xs text-slate-400">Milestones</div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3 p-3 bg-pink-500/10 border border-pink-500/20 rounded-lg">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white text-xs">🎂</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium text-pink-400">Birthday Celebration</p>
+                                            <p class="text-xs text-slate-400">Added 2 hours ago</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center space-x-3 p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white text-xs">🏆</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium text-purple-400">School Achievement</p>
+                                            <p class="text-xs text-slate-400">Added yesterday</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center space-x-3 p-3 bg-sky-500/10 border border-sky-500/20 rounded-lg">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-sky-500 to-cyan-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white text-xs">✈️</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium text-sky-400">Family Vacation</p>
+                                            <p class="text-xs text-slate-400">Added 3 days ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="w-full px-4 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity">
+                                    Add New Memory
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Automation Center -->
+                        <div class="glass p-8 rounded-2xl hover-lift">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold text-white">Automation Hub</h3>
+                                <div class="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-pulse"></div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-slate-800/30 rounded-xl border border-slate-700/50">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-white">Lead Scoring</p>
+                                            <p class="text-xs text-green-400">Active • Processing 47 leads</p>
+                                        </div>
+                                    </div>
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between p-4 bg-slate-800/30 rounded-xl border border-slate-700/50">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-sky-500 to-blue-500 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-white">Email Sequences</p>
+                                            <p class="text-xs text-sky-400">Active • 12 campaigns running</p>
+                                        </div>
+                                    </div>
+                                    <div class="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between p-4 bg-slate-800/30 rounded-xl border border-slate-700/50">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-white">Data Sync</p>
+                                            <p class="text-xs text-purple-400">Active • Last sync 2 min ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                                </div>
+
+                                <div class="pt-4 border-t border-slate-700">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-medium text-slate-300">System Performance</span>
+                                        <span class="text-sm font-mono text-green-400">98.7%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-green-500 to-emerald-400 h-2 rounded-full" style="width: 98.7%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Advanced Floating Action Button -->
+        <div class="fixed bottom-8 right-8 z-30">
+            <div id="fab-menu" class="flex flex-col space-y-4 mb-4 opacity-0 transform translate-y-4 transition-all duration-300">
+                <button class="w-12 h-12 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-full shadow-2xl hover:shadow-sky-500/25 transition-all hover:scale-110 flex items-center justify-center group">
+                    <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </button>
+                <button class="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-2xl hover:shadow-pink-500/25 transition-all hover:scale-110 flex items-center justify-center group">
+                    <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </button>
+                <button class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full shadow-2xl hover:shadow-amber-500/25 transition-all hover:scale-110 flex items-center justify-center group">
+                    <svg class="w-5 h-5 group-hover:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <button id="fab-toggle" class="w-16 h-16 bg-gradient-to-r from-violet-600 via-purple-600 to-purple-700 text-white rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all hover:scale-110 flex items-center justify-center neon-border">
+                <svg class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="fab-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Advanced AI Chat Interface -->
+        <div id="ai-chat" class="fixed bottom-24 right-24 w-96 h-96 glass-dark rounded-2xl shadow-2xl border border-slate-600/50 transform translate-y-full opacity-0 transition-all duration-500 z-20">
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-sky-600 via-purple-600 to-pink-600 p-4 rounded-t-2xl text-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Neural Assistant</h4>
+                            <p class="text-xs opacity-90">AI-Powered Revenue Intelligence</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-green-300 rounded-full animate-pulse"></div>
+                        <button id="chat-close" class="text-white/80 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="flex-1 p-4 h-64 overflow-y-auto space-y-4" id="chat-messages">
+                <div class="flex items-start space-x-3 ai-message">
+                    <div class="w-8 h-8 bg-gradient-to-r from-sky-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white text-xs font-bold">AI</span>
+                    </div>
+                    <div class="glass p-3 rounded-xl rounded-tl-none max-w-xs">
+                        <p class="text-sm text-slate-200">Hello! I'm your RevOps neural assistant. I can help you with:</p>
+                        <ul class="text-xs text-slate-300 mt-2 space-y-1">
+                            <li>• Pipeline analysis & forecasting</li>
+                            <li>• Performance optimization</li>
+                            <li>• Automation recommendations</li>
+                            <li>• Family legacy planning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-4 border-t border-slate-700/50">
+                <div class="flex space-x-2">
+                    <input type="text" id="chat-input" placeholder="Ask about revenue operations, forecasting, or automation..." 
+                           class="flex-1 px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500/50">
+                    <button id="send-message" class="px-4 py-2 bg-gradient-to-r from-sky-600 to-purple-600 text-white rounded-lg hover:opacity-90 transition-opacity">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Advanced JavaScript functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupLoadingScreen();
+            setupNeuralBackground();
+            setupMatrixRain();
+            setupNavigationEffects();
+            setupFloatingActionButton();
+            setupAIChat();
+            setupCharts();
+            setupAnimatedCounters();
+            setupPerformanceMonitoring();
+            setupRealTimeUpdates();
+        }
+
+        function setupLoadingScreen() {
+            const loadingTexts = [
+                'Connecting neural networks...',
+                'Analyzing revenue patterns...',
+                'Optimizing AI algorithms...',
+                'Loading intelligence matrix...',
+                'Calibrating forecasting models...',
+                'Initializing automation systems...',
+                'Ready for deployment!'
+            ];
+            
+            let textIndex = 0;
+            const loadingText = document.getElementById('loading-text');
+            
+            const textInterval = setInterval(() => {
+                if (textIndex < loadingTexts.length - 1) {
+                    loadingText.textContent = loadingTexts[textIndex];
+                    textIndex++;
+                } else {
+                    clearInterval(textInterval);
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('loading-screen').style.display = 'none';
+                            document.getElementById('main-content').style.opacity = '1';
+                            startAppAnimations();
+                        }, 500);
+                    }, 1000);
+                }
+            }, 400);
+        }
+
+        function setupNeuralBackground() {
+            const neuralBg = document.getElementById('neural-bg');
+            
+            // Create neural network nodes
+            for (let i = 0; i < 20; i++) {
+                const node = document.createElement('div');
+                node.className = 'neural-node';
+                node.style.left = Math.random() * 100 + '%';
+                node.style.top = Math.random() * 100 + '%';
+                node.style.animationDelay = Math.random() * 6 + 's';
+                neuralBg.appendChild(node);
+            }
+            
+            // Create connecting lines
+            for (let i = 0; i < 10; i++) {
+                const line = document.createElement('div');
+                line.className = 'neural-line';
+                line.style.left = Math.random() * 100 + '%';
+                line.style.top = Math.random() * 100 + '%';
+                line.style.width = Math.random() * 200 + 50 + 'px';
+                line.style.transform = `rotate(${Math.random() * 360}deg)`;
+                line.style.animationDelay = Math.random() * 3 + 's';
+                neuralBg.appendChild(line);
+            }
+        }
+
+        function setupMatrixRain() {
+            const matrixRain = document.getElementById('matrix-rain');
+            const chars = '01ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ';
+            
+            setInterval(() => {
+                if (matrixRain.children.length < 15) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = Math.random() * 100 + '%';
+                    char.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    matrixRain.appendChild(char);
+                    
+                    setTimeout(() => {
+                        if (char.parentNode) {
+                            char.parentNode.removeChild(char);
+                        }
+                    }, 10000);
+                }
+            }, 200);
+        }
+
+        function setupNavigationEffects() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active states
+                    navLinks.forEach(l => {
+                        l.classList.remove('active', 'text-sky-400');
+                        l.classList.add('text-slate-300');
+                        const underline = l.querySelector('div');
+                        if (underline) underline.remove();
+                    });
+                    
+                    // Add active state
+                    this.classList.remove('text-slate-300');
+                    this.classList.add('active', 'text-sky-400');
+                    
+                    // Add animated underline
+                    const underline = document.createElement('div');
+                    underline.className = 'absolute bottom-0 left-0 w-full h-0.5 bg-sky-400 rounded-full transform scale-x-0 transition-transform duration-300';
+                    this.appendChild(underline);
+                    
+                    setTimeout(() => {
+                        underline.style.transform = 'scale-x-1';
+                    }, 10);
+                });
+            });
+        }
+
+        function setupFloatingActionButton() {
+            const fabToggle = document.getElementById('fab-toggle');
+            const fabMenu = document.getElementById('fab-menu');
+            const fabIcon = document.getElementById('fab-icon');
+            let fabOpen = false;
+
+            fabToggle.addEventListener('click', function() {
+                fabOpen = !fabOpen;
+                
+                if (fabOpen) {
+                    fabMenu.style.opacity = '1';
+                    fabMenu.style.transform = 'translateY(0)';
+                    fabIcon.style.transform = 'rotate(45deg)';
+                    this.classList.add('rotate-45');
+                } else {
+                    fabMenu.style.opacity = '0';
+                    fabMenu.style.transform = 'translateY(16px)';
+                    fabIcon.style.transform = 'rotate(0deg)';
+                    this.classList.remove('rotate-45');
+                }
+            });
+
+            // Add click handlers for FAB menu items
+            const fabMenuItems = fabMenu.querySelectorAll('button');
+            fabMenuItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    const actions = ['AI Assistant', 'Add Memory', 'Settings'];
+                    showNotification(`${actions[index]} activated!`, 'success');
+                    
+                    if (index === 0) {
+                        toggleAIChat();
+                    }
+                });
+            });
+        }
+
+        function setupAIChat() {
+            const aiChat = document.getElementById('ai-chat');
+            const chatClose = document.getElementById('chat-close');
+            const chatInput = document.getElementById('chat-input');
+            const sendButton = document.getElementById('send-message');
+            const chatMessages = document.getElementById('chat-messages');
+            let chatOpen = false;
+
+            function toggleAIChat() {
+                chatOpen = !chatOpen;
+                if (chatOpen) {
+                    aiChat.style.transform = 'translateY(0)';
+                    aiChat.style.opacity = '1';
+                    setTimeout(() => chatInput.focus(), 300);
+                } else {
+                    aiChat.style.transform = 'translateY(100%)';
+                    aiChat.style.opacity = '0';
+                }
+            }
+
+            window.toggleAIChat = toggleAIChat;
+
+            chatClose.addEventListener('click', toggleAIChat);
+
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                addChatMessage(message, 'user');
+                chatInput.value = '';
+
+                // Show typing indicator
+                showTypingIndicator();
+
+                // Simulate AI response
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const responses = [
+                        "I've analyzed your pipeline data. Your Q4 forecast shows strong performance with a 94% probability of hitting targets.",
+                        "Based on current trends, I recommend focusing on the Enterprise segment where conversion rates are 23% higher.",
+                        "Your automation workflows are performing well. Consider adding lead scoring to improve qualification efficiency.",
+                        "I notice some pipeline velocity slowdown in the mid-market segment. Would you like me to generate optimization recommendations?",
+                        "Your family legacy vault is growing nicely! Don't forget to backup important memories to cloud storage."
+                    ];
+                    
+                    const response = responses[Math.floor(Math.random() * responses.length)];
+                    addChatMessage(response, 'ai');
+                }, 1500);
+            }
+
+            function addChatMessage(message, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex items-start space-x-3 ai-message ${sender === 'user' ? 'justify-end' : ''}`;
+                
+                if (sender === 'user') {
+                    messageDiv.innerHTML = `
+                        <div class="glass p-3 rounded-xl rounded-tr-none max-w-xs bg-sky-500/20">
+                            <p class="text-sm text-slate-200">${message}</p>
+                        </div>
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-xs font-bold">JS</span>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="w-8 h-8 bg-gradient-to-r from-sky-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-xs font-bold">AI</span>
+                        </div>
+                        <div class="glass p-3 rounded-xl rounded-tl-none max-w-xs">
+                            <p class="text-sm text-slate-200">${message}</p>
+                        </div>
+                    `;
+                }
+
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function showTypingIndicator() {
+                const indicator = document.createElement('div');
+                indicator.id = 'typing-indicator';
+                indicator.className = 'flex items-start space-x-3 ai-message';
+                indicator.innerHTML = `
+                    <div class="w-8 h-8 bg-gradient-to-r from-sky-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white text-xs font-bold">AI</span>
+                    </div>
+                    <div class="glass p-3 rounded-xl rounded-tl-none">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-sky-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-sky-400 rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+                            <div class="w-2 h-2 bg-sky-400 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(indicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function hideTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+
+            sendButton.addEventListener('click', sendMessage);
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+
+        function setupCharts() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                const gradient = revenueCtx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, 'rgba(14, 165, 233, 0.3)');
+                gradient.addColorStop(1, 'rgba(14, 165, 233, 0.05)');
+
+                new Chart(revenueCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Revenue',
+                            data: [180, 220, 280, 320, 380, 420, 480, 520, 580, 640, 680, 720],
+                            borderColor: '#0ea5e9',
+                            backgroundColor: gradient,
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#0ea5e9',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }, {
+                            label: 'Forecast',
+                            data: [null, null, null, null, null, null, null, null, null, 640, 720, 800],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            fill: false,
+                            pointBackgroundColor: '#8b5cf6',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    color: '#e2e8f0',
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                                titleColor: '#e2e8f0',
+                                bodyColor: '#e2e8f0',
+                                borderColor: '#334155',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ':  + context.parsed.y + 'K';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                grid: {
+                                    color: 'rgba(148, 163, 184, 0.1)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#94a3b8',
+                                    font: {
+                                        size: 11
+                                    }
+                                }
+                            },
+                            y: {
+                                display: true,
+                                grid: {
+                                    color: 'rgba(148, 163, 184, 0.1)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#94a3b8',
+                                    font: {
+                                        size: 11
+                                    },
+                                    callback: function(value) {
+                                        return ' + value + 'K';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function setupAnimatedCounters() {
+            function animateCounter(element, target, duration = 2000, prefix = '', suffix = '') {
+                let start = 0;
+                const increment = target / (duration / 16);
+                const timer = setInterval(() => {
+                    start += increment;
+                    if (start >= target) {
+                        element.textContent = prefix + target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = prefix + Math.floor(start) + suffix;
+                    }
+                }, 16);
+            }
+
+            setTimeout(() => {
+                const revenueMetric = document.getElementById('revenue-metric');
+                const conversionMetric = document.getElementById('conversion-metric');
+                const pipelineMetric = document.getElementById('pipeline-metric');
+                const efficiencyMetric = document.getElementById('efficiency-metric');
+
+                if (revenueMetric) animateCounter(revenueMetric, 2.4, 2000, ', 'M');
+                if (conversionMetric) animateCounter(conversionMetric, 94.2, 2000, '', '%');
+                if (pipelineMetric) animateCounter(pipelineMetric, 156, 2000);
+                if (efficiencyMetric) animateCounter(efficiencyMetric, 87, 2000, '', '%');
+            }, 1000);
+        }
+
+        function setupPerformanceMonitoring() {
+            // Real-time performance monitoring
+            setInterval(() => {
+                updateMetrics();
+                updateAISuggestions();
+            }, 30000);
+        }
+
+        function updateMetrics() {
+            const metrics = [
+                { id: 'revenue-metric', value: (2.4 + (Math.random() * 0.2 - 0.1)).toFixed(1), prefix: ', suffix: 'M' },
+                { id: 'conversion-metric', value: (94.2 + (Math.random() * 2 - 1)).toFixed(1), suffix: '%' },
+                { id: 'pipeline-metric', value: Math.floor(156 + (Math.random() * 10 - 5)) },
+                { id: 'efficiency-metric', value: Math.floor(87 + (Math.random() * 4 - 2)), suffix: '%' }
+            ];
+
+            metrics.forEach(metric => {
+                const element = document.getElementById(metric.id);
+                if (element) {
+                    element.textContent = (metric.prefix || '') + metric.value + (metric.suffix || '');
+                }
+            });
+        }
+
+        function updateAISuggestions() {
+            const suggestions = [
+                "💡 Pipeline velocity increased 8% this week",
+                "🎯 3 high-value prospects ready for follow-up",
+                "📊 Q4 forecast confidence at 96%",
+                "⚡ Automation saved 12 hours this week",
+                "🔥 Enterprise segment showing 23% growth",
+                "📈 Lead quality score improved to 8.7/10",
+                "🎪 Team productivity up 15% this month",
+                "🚀 New market opportunity identified",
+            ];
+
+            const aiSuggestionsContainer = document.getElementById('ai-suggestions');
+            if (aiSuggestionsContainer) {
+                // Clear current suggestions
+                aiSuggestionsContainer.innerHTML = '';
+                
+                // Add 3 random suggestions
+                const shuffled = suggestions.sort(() => 0.5 - Math.random());
+                for (let i = 0; i < 3; i++) {
+                    const suggestionDiv = document.createElement('div');
+                    suggestionDiv.className = 'p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 ai-message';
+                    suggestionDiv.innerHTML = `<p class="text-sm text-slate-300">${shuffled[i]}</p>`;
+                    aiSuggestionsContainer.appendChild(suggestionDiv);
+                }
+            }
+        }
+
+        function setupRealTimeUpdates() {
+            // Simulate real-time data updates
+            setInterval(() => {
+                updateProgressRings();
+                updateSystemStatus();
+            }, 5000);
+        }
+
+        function updateProgressRings() {
+            const rings = [
+                { id: 'excel-progress', value: 85 + Math.random() * 10 },
+                { id: 'salesforce-progress', value: 72 + Math.random() * 15 },
+                { id: 'forecast-progress', value: 68 + Math.random() * 20 },
+                { id: 'pmo-progress', value: 90 + Math.random() * 8 }
+            ];
+
+            rings.forEach(ring => {
+                const element = document.getElementById(ring.id);
+                if (element) {
+                    const circumference = 2 * Math.PI * 35;
+                    const offset = circumference - (ring.value / 100) * circumference;
+                    element.style.strokeDashoffset = offset;
+                    
+                    // Update percentage text
+                    const percentElement = document.getElementById(ring.id.replace('-progress', '-percent'));
+                    if (percentElement) {
+                        percentElement.textContent = Math.floor(ring.value) + '%';
+                    }
+                }
+            });
+        }
+
+        function updateSystemStatus() {
+            // Add random system status updates
+            console.log(`🔄 System Update: ${new Date().toLocaleTimeString()}`);
+            console.log('📊 Neural networks processing pipeline data...');
+            console.log('🎯 AI recommendations updated');
+        }
+
+        function startAppAnimations() {
+            // GSAP animations for enhanced user experience
+            if (typeof gsap !== 'undefined') {
+                // Animate hero section elements
+                gsap.from('.gradient-text', {
+                    duration: 1.2,
+                    y: 50,
+                    opacity: 0,
+                    ease: 'back.out(1.7)'
+                });
+
+                // Animate metric cards
+                gsap.from('.hover-lift', {
+                    duration: 0.8,
+                    y: 30,
+                    opacity: 0,
+                    stagger: 0.1,
+                    ease: 'power3.out',
+                    delay: 0.5
+                });
+
+                // Animate progress rings
+                gsap.from('.progress-ring', {
+                    duration: 1,
+                    rotation: -180,
+                    opacity: 0,
+                    stagger: 0.2,
+                    ease: 'back.out(1.7)',
+                    delay: 1
+                });
+            }
+
+            // Start periodic animations
+            setInterval(() => {
+                animateDataPoints();
+            }, 3000);
+        }
+
+        function animateDataPoints() {
+            // Animate data visualization elements
+            const dataPoints = document.querySelectorAll('.data-point');
+            dataPoints.forEach((point, index) => {
+                setTimeout(() => {
+                    point.style.transform = 'scale(1.2)';
+                    point.style.opacity = '1';
+                    setTimeout(() => {
+                        point.style.transform = 'scale(1)';
+                        point.style.opacity = '0.7';
+                    }, 200);
+                }, index * 100);
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const colors = {
+                success: 'from-green-500 to-emerald-500',
+                error: 'from-red-500 to-pink-500',
+                warning: 'from-amber-500 to-orange-500',
+                info: 'from-sky-500 to-purple-500'
+            };
+            
+            notification.className = `fixed top-20 right-4 bg-gradient-to-r ${colors[type]} text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-full transition-transform duration-500 z-50`;
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="text-xl">${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</div>
+                    <span class="font-medium">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white/80 hover:text-white">✕</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 500);
+            }, 4000);
+        }
+
+        // Console welcome message with enhanced branding
+        console.log(`
+            🚀 RevOps Hub Neural Intelligence Platform v3.0
+            
+            ✨ Next-Generation Features:
+            • AI-powered revenue forecasting
+            • Real-time neural network analysis  
+            • Advanced automation workflows
+            • Integrated family legacy systems
+            • Predictive analytics engine
+            • Smart pipeline optimization
+            
+            🧠 Neural Networks: Active
+            📊 Data Processing: Real-time  
+            🎯 Optimization: Continuous
+            
+            Built with cutting-edge technologies for peak performance.
+        `);
+
+        // Add loading progress animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes loading-progress {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
