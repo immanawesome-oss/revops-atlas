@@ -1,9 +1,0 @@
-script.js
-
-document.addEventListener("DOMContentLoaded", () => {
-  const ctaBtn = document.getElementById("ctaBtn");
-
-  ctaBtn.addEventListener("click", () => {
-    alert("Welcome to RevOps Atlas! 🚀 Let’s simplify Revenue Operations together.");
-  });
-});
